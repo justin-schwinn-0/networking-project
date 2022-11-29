@@ -35,7 +35,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
             
                 if(data  == b'List'):
 
-                    print("getting lsit")
+                    print("getting list...")
                     
                     server.sendall("L".encode())
 
@@ -51,10 +51,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
                 elif(data == b'Read'):
                     connC.sendall("Select file: ".encode())
                     selection = connC.recv(1024)
+
+                    print("getting file contents...")
                     send = "R" + selection.decode()
                     server.sendall(send.encode())
+
                     serverData = server.recv(1024)
                     connC.sendall(serverData)
+                    print("forwarding file contents...")
                 
                 else:
                     connC.sendall("unknown command".encode())
